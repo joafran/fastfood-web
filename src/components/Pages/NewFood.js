@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { FirebaseContext } from '../../firebase';
 
 const NewFood = () => {
+
+    const { firebase } = useContext(FirebaseContext)
+
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -17,8 +21,13 @@ const NewFood = () => {
             category: Yup.string().required('Category is required'),
             description: Yup.string().min(10,'The description must be longer').required('Description is required')
         }),
-        onSubmit: data => {
-            console.log(data);
+        onSubmit: meal => {
+            try {
+                meal.available = true;
+                firebase.db.collection('productos').add(meal);
+            } catch (error) {
+                console.log(error)
+            }
         }
     })
 
