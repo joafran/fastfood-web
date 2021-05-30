@@ -1,11 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useHistory } from 'react-router-dom';
 import { FirebaseContext } from '../../firebase';
 
 const NewFood = () => {
-
+    const history = useHistory();
     const { firebase } = useContext(FirebaseContext)
+    const [success, setSuccess] = useState(false);
 
     const formik = useFormik({
         initialValues: {
@@ -21,10 +23,11 @@ const NewFood = () => {
             category: Yup.string().required('Category is required'),
             description: Yup.string().min(10,'The description must be longer').required('Description is required')
         }),
-        onSubmit: meal => {
+        onSubmit: async (meal) => {
             try {
                 meal.available = true;
-                firebase.db.collection('productos').add(meal);
+                await firebase.db.collection('meals').add(meal);
+                setSuccess(true);
             } catch (error) {
                 console.log(error)
             }
@@ -33,11 +36,21 @@ const NewFood = () => {
 
     return ( 
         <>
-            <div className="min-h-full" style={{background: `url(https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940) no-repeat center center/cover`}}>
+            <div className="min-h-screen" style={{background: `url(https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940) no-repeat center center/cover`}}>
                 <h1 className="text-4xl font-bold mx-3 p-4 bg-gray-900 max-w-xs text-yellow-500 uppercase">New Meal</h1>
                 <div className="flex justify-center mt-5">
                     <div className="w-full max-w-3xl">
-                        <form onSubmit={formik.handleSubmit}>
+                        {success ? (
+                            <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-5" role="dialog">
+                                <p className="font-bold">Done!</p>
+                                <p>The meal was added successfully 😄</p>
+                                <div>
+                                    <button onClick={() => history.push('/menu')} className="p-4 border rounded bg-blue-900 cursor-pointer text-indigo-100 font-semibold hover:bg-opacity-80">Go to Menu</button>
+                                    <button onClick={() => setSuccess(false)} className="p-4 border rounded bg-green-500 cursor-pointer text-white font-semibold hover:bg-opacity-80 ">Add another food</button>
+                                </div>
+                            </div>
+                        ) : (
+                            <form onSubmit={formik.handleSubmit}>
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">Name</label>
                                 <input 
@@ -142,6 +155,9 @@ const NewFood = () => {
                                 value="Add Meal"
                                 />
                         </form>
+
+                        )
+                        }
                     </div>
                 </div>
             </div>
