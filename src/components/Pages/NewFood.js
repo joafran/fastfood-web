@@ -32,13 +32,20 @@ const NewFood = () => {
         onSubmit: async (meal) => {
             try {
                 meal.available = true;
+                meal.image = imageUrl
                 await firebase.db.collection('meals').add(meal);
+                console.log(formik.values);
                 setSuccess(true);
             } catch (error) {
                 console.log(error)
             }
         }
     });
+
+    const handleAddMoreFood = () => {
+        formik.setValues(formik.initialValues);
+        setSuccess(false);
+    }
 
     // Image functions
 
@@ -77,7 +84,7 @@ const NewFood = () => {
                                 <p>The meal was added successfully 😄</p>
                                 <div>
                                     <button onClick={() => history.push('/menu')} className="p-4 border rounded bg-blue-900 cursor-pointer text-indigo-100 font-semibold hover:bg-opacity-80">Go to Menu</button>
-                                    <button onClick={() => setSuccess(false)} className="p-4 border rounded bg-green-500 cursor-pointer text-white font-semibold hover:bg-opacity-80 ">Add another food</button>
+                                    <button onClick={() => handleAddMoreFood()} className="p-4 border rounded bg-green-500 cursor-pointer text-white font-semibold hover:bg-opacity-80 ">Add another food</button>
                                 </div>
                             </div>
                         ) : (
