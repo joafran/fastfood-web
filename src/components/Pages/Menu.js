@@ -28,7 +28,7 @@ const Menu = () => {
     return ( 
         <div className="bg-gray-200 p-3">
             <h1 className="bg-gray-900 text-white rounded p-2 text-3xl font-semibold mb-4 text-center">Menu 📋</h1>
-            <Link to="/new-food" className="bg-green-800 hover:bg-green-400 w-3/12 mt-2 p-2 text-white uppercase font-bold cursor-pointer ">
+            <Link to="/new-food" className="bg-blue-600 rounded hover:bg-blue-400 w-3/12 mt-2 p-3 text-white uppercase font-bold cursor-pointer ">
                 Add Food +
             </Link>
             {meals.map( meal => (
