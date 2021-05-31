@@ -90,7 +90,7 @@ const NewFood = () => {
                         ) : (
                             <form onSubmit={formik.handleSubmit}>
                             <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">Name</label>
+                                <label className="block bg-gray-800 w-max py-2 px-5 rounded text-white text-sm font-light mb-2" htmlFor="name">Name</label>
                                 <input 
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline "
                                     id="name"
@@ -109,7 +109,7 @@ const NewFood = () => {
                             ) : null
                             }
                             <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="price">Price</label>
+                                <label className="block bg-gray-800 w-max py-2 px-5 rounded text-white text-sm font-light mb-2" htmlFor="price">Price</label>
                                 <input 
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline "
                                     id="price"
@@ -130,7 +130,7 @@ const NewFood = () => {
                             }
 
                             <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">Category</label>
+                                <label className="block bg-gray-800 w-max py-2 px-5 rounded text-white text-sm font-light mb-2" htmlFor="category">Category</label>
                                 <select 
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline "
                                     id="category"
@@ -157,7 +157,7 @@ const NewFood = () => {
                             }
 
                             <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">Image</label>
+                                <label className="block bg-gray-800 w-max py-2 px-5 rounded text-white text-sm font-light mb-2" htmlFor="image">Image</label>
                                 <FileUploader 
                                     accept="image/*"
                                     id="image"
@@ -189,7 +189,7 @@ const NewFood = () => {
                             }
 
                             <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">Description</label>
+                                <label className="block bg-gray-800 w-max py-2 px-5 rounded text-white text-sm font-light mb-2" htmlFor="description">Description</label>
                                 <textarea 
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-40"
                                     id="description"

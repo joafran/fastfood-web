@@ -21,14 +21,14 @@ const Meal = ({ meal }) => {
 
 
     return ( 
-        <div className="w-full px-3 mb-4">
+        <div className="w-full px-3 my-4">
             <div className="p-5 shadow-md bg-white">
                 <div className="lg:flex">
-                    <div className="lg:w-5/12 xl:w-3/12">
+                    <div className="lg:w-5/12 xl:w-3/12 ">
                         <img src={image} alt="meal image" className="h-52 w-full rounded" />
                         <div className="sm:flex sm:-mx-2 pl-2">
                             <label className="block mt-5 sm:w-2/4">
-                                <span className="block text-gray-800 mb-2">Available</span>
+                                <span className="block text-gray-800 mb-2 font-semibold">Available</span>
                                 <select className="bg-white shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus: outline-none focus:shadow-outline"
                                 value={available}
                                 ref={availableRef}
