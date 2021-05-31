@@ -3,11 +3,17 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useHistory } from 'react-router-dom';
 import { FirebaseContext } from '../../firebase';
+import FileUploader from 'react-firebase-file-uploader'
 
 const NewFood = () => {
-    const history = useHistory();
-    const { firebase } = useContext(FirebaseContext)
     const [success, setSuccess] = useState(false);
+    const [uploading, setUploading] = useState(false);
+    const [progress, setProgress] = useState(0);
+    const [imageUrl, setImageUrl] = useState('');
+
+
+    const { firebase } = useContext(FirebaseContext)
+    const history = useHistory();
 
     const formik = useFormik({
         initialValues: {
@@ -32,7 +38,32 @@ const NewFood = () => {
                 console.log(error)
             }
         }
-    })
+    });
+
+    // Image functions
+
+    const handleUploadStart = () => {
+        setProgress(0);
+        setUploading(true);
+    }
+
+    const handleUploadError = (error) => {
+        setUploading(false);
+        console.log(error)
+    }
+
+    const handleUploadSuccess = async (name) => {
+        setProgress(100);
+        setUploading(false);
+        const url = await firebase.storage.ref("meal-picture").child(name).getDownloadURL()
+        console.log(url);
+        setImageUrl(url);
+    }
+
+    const handleProgress = (progress) => {
+        setProgress(progress);
+    }
+
 
     return ( 
         <>
@@ -120,15 +151,36 @@ const NewFood = () => {
 
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">Image</label>
-                                <input 
-                                    className="shadow bg-white appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline "
-                                    id="image"
-                                    type="file"
+                                <FileUploader 
                                     accept="image/*"
-                                    value={formik.values.image}
-                                    onChange={formik.handleChange}
-                                    />
+                                    id="image"
+                                    name="image"
+                                    className="bg-white p-2 rounded w-full"
+                                    randomizeFilename
+                                    storageRef={firebase.storage.ref("meal-picture")}
+                                    onUploadStart={handleUploadStart}
+                                    onUploadError={handleUploadError}
+                                    onUploadSuccess={handleUploadSuccess}
+                                    onProgress={handleProgress}
+                                />
                             </div>
+                            { uploading && (
+                                <div className="h-12 relative w-full border">
+                                    <div className="bg-green-500 absolute left-0 top-0 text-white px-2 text-sm h-12 flex items-center" style={{width: `${progress}%`}}>
+                                        {progress}%
+                                    </div>
+                                </div>
+
+                            )}
+
+                            { imageUrl && (
+                                <p className="bg-green-500 text-white p-3 text-center my-5">
+                                    The image was uploaded successfully.
+                                </p>
+                            )
+
+                            }
+
                             <div className="mb-4">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">Description</label>
                                 <textarea 
