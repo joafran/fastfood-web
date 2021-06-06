@@ -6,13 +6,22 @@ const Order = ({order}) => {
     const { firebase } = useContext(FirebaseContext);
 
     const setDeliveryTime = (id) => {
-        console.log('soy ID',id);
         try {
             firebase.db.collection('orders').doc(id).update({deliveryTime});
         } catch (error) {
             console.log(error);
         }
 
+    }
+
+    const markAsDone = (id) => {
+        try {
+            firebase.db.collection('orders').doc(id).update({
+                isDone: true
+            })
+        } catch (error) {
+            console.log(error)
+        }
     }
     
     return ( 
@@ -44,6 +53,20 @@ const Order = ({order}) => {
                             Set time
                         </button>
                     </div>
+                )}
+                {(order.deliveryTime > 0) && (
+                    <p className="text-gray-700">Delivery Time: 
+                        <span className="font-bold"> {order.deliveryTime} Minutes</span>
+                    </p>
+                )}
+                {(!order.isDone && order.deliveryTime > 0) && (
+                    <button
+                     type="button"
+                     className="bg-green-800 hover:bg-green-700 w-full mt-5 p-2 text-white uppercase font-bold"
+                     onClick={ () => markAsDone(order.id)}
+                    >
+                        Mark as done
+                    </button>
                 )}
             </div>
         </div>
